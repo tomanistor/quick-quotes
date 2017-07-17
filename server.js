@@ -3,10 +3,9 @@ const bodyParser= require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 const app = express();
 
-app.use(bodyParser.urlencoded({extended: true}))
-
 var db
 
+// Connect server to database
 MongoClient.connect('mongodb://tomanistor:tomanistor@ds139262.mlab.com:39262/quick-quotes', (err, database) => {
   if (err) return console.log(err)
   db = database
@@ -15,8 +14,16 @@ MongoClient.connect('mongodb://tomanistor:tomanistor@ds139262.mlab.com:39262/qui
   })
 })
 
+app.set('view engine', 'ejs')
+app.use(bodyParser.urlencoded({extended: true}))
+
 app.get('/', (req, res) => {
-  res.sendFile(__dirname +'/index.html')
+  db.collection('quotes').find().toArray((err, result) => {
+    if (err) return console.log(err)
+
+    // Renders index.ejs
+    res.render('index.ejs', {quotes: result})
+  })
 })
 
 app.post('/quotes', (req, res) => {

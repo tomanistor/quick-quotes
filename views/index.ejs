@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Quick Quotes</title>
+  </head>
+  <body>
+
+    <h1>Quick Quotes</h1>
+
+    <form action="/quotes" method="POST">
+      <input type="text" placeholder="Name" name="name">
+      <input type="text" placeholder="Quote" name="quote">
+      <button type="submit">Submit</button>
+    </form>
+
+    <section class="quotes">
+      <% for(var i=0; i<quotes.length; i++) { %>
+        <p class="quote">
+          <q><%= quotes[i].quote %></q>
+          <span>— <%= quotes[i].name %></span>
+        </p>
+      <% } %>
+    </section>
+
+  </body>
+</html>
